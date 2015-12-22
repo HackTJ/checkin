@@ -40,8 +40,7 @@ html(prefix="og: http://ogp.me/ns#")
 					button.submit(type="button" ng-class="{'is-disabled': !password}" ng-click="login()") Log in
 					.confirmation-text(ng-bind="loginhelp") hi
 			.form.checkin-form(ng-show="user")
-				label.form-text(ng-focus="isTyping=false" ng-blur="isTyping=true") Start typing to checkin students.
 				.input-line
-					input.checkin(type="text" placeholder="Name or Email Address")
+					input.checkin(type="text" placeholder="Start Typing to check in..." ng-focus="isTyping=true" ng-blur="isTyping=false")
 				.confirmation-text(ng-model="loginhelp")
 	script(src="js/main.js" type="text/javascript")

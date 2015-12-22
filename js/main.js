@@ -32,10 +32,6 @@ angular.module('HackTJCheckin', [])
 	.success(function(data){
 		$scope.user = data;
 	})
-	.error(function(data){
-		console.log(data);
-	})
-
 
 	$scope.login = function(){
 		$http.post("https://api.hacktj.org/auth/login", {password: $scope.password})
