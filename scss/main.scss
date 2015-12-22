@@ -1,0 +1,243 @@
+$base-font-size: 14px;
+$hacktj-red: #EA5C5C;
+
+@import "mixins";
+@import "normalize";
+@import "icons/icons";
+@import "icons/helper";
+@import "icons/social/icons";
+
+body {
+	background-color: $hacktj-red;
+	font-family: "Roboto", sans-serif;
+	font-weight: 300;
+	color: white;
+	position: relative;
+	width: 100%;
+	min-height: 100%;
+}
+
+.footer-links{
+	display: block;
+	position: absolute;
+	bottom: 0.4em;
+	left: 0;
+	right: 0;
+	text-align: center;
+	color: white;
+	font-size: 14px;
+	font-weight: 100;
+	@include respond-to("mobile"){
+		position: relative;
+		margin-top: 0.5em;
+	}
+	.bullet{
+		display: inline-block;
+		@include respond-to("mobile"){
+			display: none;
+		}
+	}
+	a{
+		color: white;
+		display: inline-block;
+		margin: 0 5px;
+		@include respond-to("mobile"){
+			display: block;
+			margin-top: 10px;
+		}
+	}
+
+}
+
+.centered-box{
+	display: block;
+	width: 100%;
+	max-width: 700px;
+	margin: auto;
+	
+	position: absolute;
+	top: 5%;
+	left: 50%;
+	transform: translate(-50%, 0);
+
+	@include respond-to("mobile"){
+		position: relative;
+		top: 0;
+		left: 0;
+		transform: none;
+		margin-top: 1em;
+	}
+
+	.logo{
+		display: block;
+		max-width: 500px;
+		margin: auto;
+		@include respond-to("mobile"){
+			max-width: 90%;
+		}
+	}
+	.event-date, .event-location{
+		width: 100%;
+		text-align: center;
+		// font-weight: 100;
+		margin-top: 10px;
+		@include respond-to("mobile"){
+			width: 90%;
+			text-align: center;
+			margin: auto;
+		}
+		&.event-date{
+			font-size: 45px;
+			@include respond-to("mobile"){
+				font-size: 32px;
+			}
+		}
+		&.event-location{
+			font-size: 25px;
+			font-weight: 100;
+			@include respond-to("mobile"){
+				margin-top: 10px;
+				font-size: 22px;
+			}
+		}
+	}
+
+	.interest-form{
+		margin-top: 10%;
+		margin-left: 5%;
+		margin-right: 5%;
+		label.form-text{
+			font-weight: 100;
+		}
+		.input-line{
+			margin-top: 10px;
+			overflow: hidden;
+			input.contact{
+				display: inline-block;
+				height: 50px;
+				width: 69%;
+				@include respond-to("mobile"){
+					display: block;
+					width: 100%;
+				}
+
+				outline: none;
+				-webkit-appearance: none;
+				appearance: none;
+				box-shadow: none;
+				border: none;
+				border-radius: 5px;
+
+				padding: 15px;
+				font-size: 25px;
+				color: white;
+
+				$input-color: rgba(255, 255, 255, 0.2);
+				background-color: $input-color;
+				border: 1px solid transparent;
+				&:focus{
+					border-color: rgba(255, 255, 255, 0.6);
+				}
+				transition: border-color 0.25s;
+
+				$placeholder-color: rgba(255, 255, 255, 0.6);
+				$placeholder-weight: 100;
+				$placeholder-size: 20px;
+				$placeholder-padding: 2.5px;
+				&::-webkit-input-placeholder {
+					font-weight: $placeholder-weight;
+				  color: $placeholder-color;
+				  padding-top: $placeholder-padding;
+				  font-size: $placeholder-size;
+				}
+				&:-moz-placeholder {
+					font-weight: $placeholder-weight;
+				  color: $placeholder-color;
+				  padding-top: $placeholder-padding;
+ 				  font-size: $placeholder-size;
+				}
+				&::-moz-placeholder {
+					font-weight: $placeholder-weight;
+				  color: $placeholder-color;
+				  padding-top: $placeholder-padding;
+ 				  font-size: $placeholder-size;
+				}
+				&:-ms-input-placeholder {
+					font-weight: $placeholder-weight;
+				  color: $placeholder-color;
+				  padding-top: $placeholder-padding;
+ 				  font-size: $placeholder-size;
+				}
+			}	
+			button.submit{
+				display: inline-block;
+				height: 50px;
+				width: 29%;
+				@include respond-to("mobile"){
+					display: block;
+					width: 100%;
+					margin-top: 10px;
+				}
+
+				float: right;
+				background: none;
+				overflow: hidden;
+				border: 1px solid white;
+				border-radius: 5px;
+				font-size: 20px;
+				cursor: pointer;
+				position: relative;
+				.text, .icon{
+					display: block;
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					line-height: 50px;
+					transition: top 0.5s;
+				}
+				.icon{
+					font-size: 30px;
+					top: 100%;
+				}
+				&.is-disabled{
+					color: rgba(230, 230, 230, 0.6);
+					border-color: rgba(230, 230, 230, 0.6);
+					cursor: none;
+					pointer-events: none;
+				}
+				&.is-done{
+					.text{
+						top: -100%;
+					}
+					.icon{
+						top: 0;
+					}
+				}
+				&:hover{
+					background-color: white;
+					color: $hacktj-red;
+				}
+				&:active{
+					border-color: $hacktj-red;
+				}
+				transition: background-color 0.25s, border-color 0.25s, color 0.25s, padding-left 0.25s;
+			}
+		}
+	}
+	.confirmation-text{
+		display: block;
+		width: 100%;
+		text-align: center;
+		opacity: 0;
+		margin-top: 10px;
+		font-size: 20px;
+		font-weight: 400;
+		&.is-shown{
+			opacity: 1;
+		}
+		transition: opacity 0.5s;
+	}
+}
+
