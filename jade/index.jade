@@ -26,21 +26,22 @@ html(prefix="og: http://ogp.me/ns#")
 
 		link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Roboto:100,300,400", type="text/css")
 		link(rel='stylesheet', href='css/main.css', type='text/css')
-	body
-		.centered-box
+	body(ng-app="HackTJCheckin" ng-controller="CheckinController")
+		.login-info(ng-show="user")
+			| Hello, {{user.firstname}} (
+			a(ng-click="logout()" href="javascript: null();") logout
+			| )
+		.centered-box(ng-class="{'is-typing': isTyping}")
 			img.logo(src="img/logo-main.png" alt="HackTJ")
-			.event-date February 6th-7th, 2016
-			.event-location Thomas Jefferson High School for Science and Technology
-			.interest-form
-				label.form-text Want to attend or mentor? Get notified when registration opens.
+			.form.login-form(ng-show="!user")
+				label.form-text Enter your organizer password to login.
 				.input-line
-					input.contact(type="text" placeholder="Email Address or Phone #")
-					button.submit.is-disabled(type="button") 
-						.text Remind Me!
-						.icon
-				.confirmation-text &nsbp;
-		.footer-links
-			a(target="_blank" href="mailto:sponsor@hacktj.org") Interested in becoming a sponsor?
-			.bullet &bull;
-			a(target="_blank" href="https://hacktj.org/2015") Learn about last year's HackTJ
+					input.password(type="password" placeholder="Password" ng-model="password")
+					button.submit(type="button" ng-class="{'is-disabled': !password}" ng-click="login()") Log in
+					.confirmation-text(ng-bind="loginhelp") hi
+			.form.checkin-form(ng-show="user")
+				label.form-text(ng-focus="isTyping=false" ng-blur="isTyping=true") Start typing to checkin students.
+				.input-line
+					input.checkin(type="text" placeholder="Name or Email Address")
+				.confirmation-text(ng-model="loginhelp")
 	script(src="js/main.js" type="text/javascript")

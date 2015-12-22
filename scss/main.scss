@@ -1,5 +1,7 @@
 $base-font-size: 14px;
-$hacktj-red: #EA5C5C;
+$hacktj-primary: #A1B6D5;
+$text-color: #333333;
+$line-width: 7px;
 
 @import "mixins";
 @import "normalize";
@@ -8,7 +10,7 @@ $hacktj-red: #EA5C5C;
 @import "icons/social/icons";
 
 body {
-	background-color: $hacktj-red;
+	background-color: $hacktj-primary;
 	font-family: "Roboto", sans-serif;
 	font-weight: 300;
 	color: white;
@@ -16,39 +18,15 @@ body {
 	width: 100%;
 	min-height: 100%;
 }
-
-.footer-links{
-	display: block;
+.login-info{
 	position: absolute;
-	bottom: 0.4em;
-	left: 0;
-	right: 0;
-	text-align: center;
-	color: white;
-	font-size: 14px;
-	font-weight: 100;
-	@include respond-to("mobile"){
-		position: relative;
-		margin-top: 0.5em;
-	}
-	.bullet{
-		display: inline-block;
-		@include respond-to("mobile"){
-			display: none;
-		}
-	}
+	right: 20px;
+	top: 20px;
 	a{
 		color: white;
-		display: inline-block;
-		margin: 0 5px;
-		@include respond-to("mobile"){
-			display: block;
-			margin-top: 10px;
-		}
 	}
-
 }
-
+	
 .centered-box{
 	display: block;
 	width: 100%;
@@ -59,6 +37,12 @@ body {
 	top: 5%;
 	left: 50%;
 	transform: translate(-50%, 0);
+
+	&.is-typing{
+		.logo{
+			display: none;
+		}
+	}
 
 	@include respond-to("mobile"){
 		position: relative;
@@ -102,7 +86,7 @@ body {
 		}
 	}
 
-	.interest-form{
+	.form{
 		margin-top: 10%;
 		margin-left: 5%;
 		margin-right: 5%;
@@ -112,7 +96,7 @@ body {
 		.input-line{
 			margin-top: 10px;
 			overflow: hidden;
-			input.contact{
+			input{
 				display: inline-block;
 				height: 50px;
 				width: 69%;
@@ -128,7 +112,7 @@ body {
 				border: none;
 				border-radius: 5px;
 
-				padding: 15px;
+				padding: 0px 15px;
 				font-size: 25px;
 				color: white;
 
@@ -167,6 +151,9 @@ body {
 				  color: $placeholder-color;
 				  padding-top: $placeholder-padding;
  				  font-size: $placeholder-size;
+				}
+				&.checkin{
+					width: 100%;
 				}
 			}	
 			button.submit{
@@ -217,10 +204,10 @@ body {
 				}
 				&:hover{
 					background-color: white;
-					color: $hacktj-red;
+					color: $hacktj-primary;
 				}
 				&:active{
-					border-color: $hacktj-red;
+					border-color: $hacktj-primary;
 				}
 				transition: background-color 0.25s, border-color 0.25s, color 0.25s, padding-left 0.25s;
 			}
@@ -230,14 +217,9 @@ body {
 		display: block;
 		width: 100%;
 		text-align: center;
-		opacity: 0;
 		margin-top: 10px;
 		font-size: 20px;
 		font-weight: 400;
-		&.is-shown{
-			opacity: 1;
-		}
-		transition: opacity 0.5s;
 	}
 }
 
