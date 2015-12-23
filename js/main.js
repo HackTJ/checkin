@@ -37,27 +37,29 @@ angular.module('HackTJCheckin', [])
 	$scope.search = ""
 	$scope.index = 0;
 	$scope.modalGuest = false;
+	var SERVER = 'https://api.hacktj.org';
 
 	$scope.setIndex = function(i){
 		$scope.index = i;
 	}
 
 	$scope.loadGuests = function(type){
-		$http.get('https://api.hacktj.org/checkin/guests?type='+type, { withCredentials: true })
+		console.log('loading');
+		$http.get(SERVER+'/checkin/guests?type='+type, { withCredentials: true })
 		.success(function(data){
 			console.log(data);
 			$scope.guests = data;
 		});
 	}
 
-	$http.get("https://api.hacktj.org/auth/cookie", { withCredentials: true })
+	$http.get(SERVER+"/auth/cookie", { withCredentials: true })
 	.success(function(data){
 		$scope.user = data;
 		$scope.loadGuests($scope.type);
 	});
 
 	$scope.login = function(){
-		$http.post("https://api.hacktj.org/auth/login", {password: $scope.password})
+		$http.post(SERVER+"/auth/login", {password: $scope.password})
 		.success(function(data){
 			$scope.user = data;
 			$scope.loadGuests($scope.type);
@@ -67,7 +69,7 @@ angular.module('HackTJCheckin', [])
 		})
 	}
 	$scope.logout = function(){
-		$http.get('https://api.hacktj.org/auth/logout')
+		$http.get(SERVER+'/auth/logout')
 		$scope.user = false;
 	}
 
@@ -77,8 +79,12 @@ angular.module('HackTJCheckin', [])
 		document.querySelector('input.phone').focus();
 	}
 	$scope.sendCheckin = function(){
-		var guest = $scope.filteredGuests[$scope.index];
-		console.log('Checked in '+guest.firstname+" "+guest.lastname+".")
+		var guest = $scope.filteredGuests[$scope.index]; 
+		$http.post(SERVER+"/checkin", {
+			id: $scope.modalGuest.id,
+			phone: $scope.modalGuest.phone
+		}, { withCredentials: true })
+
 		$scope.search = "";
 		$scope.index = 0;
 		removeClass(document.querySelector('.send-checkin'), 'selected');
