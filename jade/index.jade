@@ -31,7 +31,7 @@ html(prefix="og: http://ogp.me/ns#")
 			| Hello, {{user.firstname}} (
 			a(ng-click="logout()" href="javascript: null();") logout
 			| )
-		.centered-box(ng-class="{'is-typing': isTyping}")
+		.centered-box(ng-class="{'is-typing': (isTyping || search)}")
 			img.logo(src="img/logo-main.png" alt="HackTJ")
 			.form.login-form(ng-show="!user")
 				label.form-text Enter your organizer password to login.
@@ -41,6 +41,13 @@ html(prefix="og: http://ogp.me/ns#")
 					.confirmation-text(ng-bind="loginhelp") hi
 			.form.checkin-form(ng-show="user")
 				.input-line
-					input.checkin(type="text" placeholder="Start Typing to check in..." ng-focus="isTyping=true" ng-blur="isTyping=false")
+					input.checkin(type="text" placeholder="Start typing to check in..." ng-focus="isTyping=true" ng-blur="isTyping=false" ng-model="search" ng-keydown="keydown()")
 				.confirmation-text(ng-model="loginhelp")
+		.list-container
+			.checkin-list(ng-show="search")
+				.guest(ng-repeat="guest in (filteredGuests = (guests | filter:search))" ng-click="checkin(guest)" ng-class="{selected: (index == $index)}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false")
+					.action [enter]
+					.firstname {{guest.firstname}}
+					.lastname {{guest.lastname}}
+					.email {{guest.email}}
 	script(src="js/main.js" type="text/javascript")

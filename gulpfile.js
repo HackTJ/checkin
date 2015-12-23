@@ -21,6 +21,8 @@ var minifyJS = require('gulp-uglify')
 var rmdir = require('rimraf');
 var sass = require('gulp-sass');
 var when = require('when');
+var livereload = require('gulp-livereload');
+
 
 /**** Compiler tasks ****/
 var compiler = {};
@@ -40,6 +42,7 @@ compiler.html = function() {
     gulp.src('./jade/[!_]*.jade')
         .pipe(jade())
         .pipe(gulp.dest('./out'))
+        .pipe(livereload())
         .on('end', function(){
         	deferred.resolve();
         });
@@ -54,6 +57,7 @@ compiler.css = function() {
         .pipe(sass({outputStyle: 'compressed'}))
         .on('error', function (err) { console.log(err.message); })
         .pipe(gulp.dest('./out/css'))
+        .pipe(livereload())
         .on('end', function(){
         	deferred.resolve();
         });
@@ -147,6 +151,7 @@ Object.keys(deploy).forEach(function(target){
 
 
 gulp.task('watch', ['default'], function() {
+    livereload.listen();
 
     port = (process.argv.length > 4 && process.argv[3] == '--port') ? parseInt(process.argv[4]) : 8000;
     require('http').createServer(function (request, response) {
