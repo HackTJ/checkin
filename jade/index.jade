@@ -27,6 +27,7 @@ html(prefix="og: http://ogp.me/ns#")
 		link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Roboto:100,300,400", type="text/css")
 		link(rel='stylesheet', href='css/main.css', type='text/css')
 	body(ng-app="HackTJCheckin" ng-controller="CheckinController")
+		.overlay(ng-class="{shown: modalGuest}" ng-click="modalGuest=false;")
 		.login-info(ng-show="user")
 			| Hello, {{user.firstname}} (
 			a(ng-click="logout()" href="javascript: null();") logout
@@ -45,9 +46,23 @@ html(prefix="og: http://ogp.me/ns#")
 				.confirmation-text(ng-model="loginhelp")
 		.list-container
 			.checkin-list(ng-show="search")
-				.guest(ng-repeat="guest in (filteredGuests = (guests | filter:search))" ng-click="checkin(guest)" ng-class="{selected: (index == $index)}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false")
+				.guest(ng-repeat="guest in (filteredGuests = (guests | filter:search))" ng-mouseenter="setIndex($index)" ng-click="checkinModal()" ng-class="{selected: (index == $index)}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false")
 					.action [enter]
 					.firstname {{guest.firstname}}
 					.lastname {{guest.lastname}}
 					.email {{guest.email}}
+		.checkin-modal(ng-class="{shown: modalGuest}")
+			h3.title {{modalGuest.firstname.capitalize()+ " " + modalGuest.lastname.capitalize()}}
+			table.data
+				tr
+					td.field Shirt
+					td.value {{modalGuest.shirt.capitalize()}}
+				tr
+					td.field DOB
+					td.value {{modalGuest.birth_date}}
+				tr
+					td.field Phone
+					td.value
+						input.phone(type="phone" ng-model="modalGuest.phone")
+			button.send-checkin(type="button" ng-click="sendCheckin()") Check in {{modalGuest.firstname.capitalize()+ " " + modalGuest.lastname.capitalize()}}
 	script(src="js/main.js" type="text/javascript")

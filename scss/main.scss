@@ -28,7 +28,123 @@ body {
 		color: white;
 	}
 }
-	
+
+input{
+	display: inline-block;
+	height: 50px;
+	width: 69%;
+	@include respond-to("mobile"){
+		display: block;
+		width: 100%;
+	}
+
+	outline: none;
+	-webkit-appearance: none;
+	appearance: none;
+	box-shadow: none;
+	border: none;
+	border-radius: 5px;
+
+	padding: 0px 15px;
+	font-size: 25px;
+	color: white;
+
+	background-color: $input-color;
+	border: 1px solid transparent;
+	&:focus{
+		border-color: rgba(255, 255, 255, 0.6);
+	}
+	transition: border-color 0.25s;
+
+	$placeholder-color: rgba(255, 255, 255, 0.6);
+	$placeholder-weight: 100;
+	$placeholder-size: 20px;
+	$placeholder-padding: 2.5px;
+	&::-webkit-input-placeholder {
+		font-weight: $placeholder-weight;
+	  color: $placeholder-color;
+	  padding-top: $placeholder-padding;
+	  font-size: $placeholder-size;
+	}
+	&:-moz-placeholder {
+		font-weight: $placeholder-weight;
+	  color: $placeholder-color;
+	  padding-top: $placeholder-padding;
+		  font-size: $placeholder-size;
+	}
+	&::-moz-placeholder {
+		font-weight: $placeholder-weight;
+	  color: $placeholder-color;
+	  padding-top: $placeholder-padding;
+		  font-size: $placeholder-size;
+	}
+	&:-ms-input-placeholder {
+		font-weight: $placeholder-weight;
+	  color: $placeholder-color;
+	  padding-top: $placeholder-padding;
+		  font-size: $placeholder-size;
+	}
+	&.checkin{
+		width: 100%;
+	}
+}
+
+button{
+	display: inline-block;
+	height: 50px;
+	width: 29%;
+	@include respond-to("mobile"){
+		display: block;
+		width: 100%;
+		margin-top: 10px;
+	}
+
+	float: right;
+	background: none;
+	overflow: hidden;
+	border: 1px solid white;
+	border-radius: 5px;
+	font-size: 20px;
+	cursor: pointer;
+	position: relative;
+	.text, .icon{
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		line-height: 50px;
+		transition: top 0.5s;
+	}
+	.icon{
+		font-size: 30px;
+		top: 100%;
+	}
+	&.is-disabled{
+		color: rgba(230, 230, 230, 0.6);
+		border-color: rgba(230, 230, 230, 0.6);
+		cursor: none;
+		pointer-events: none;
+	}
+	&.is-done{
+		.text{
+			top: -100%;
+		}
+		.icon{
+			top: 0;
+		}
+	}
+	&:hover{
+		background-color: white;
+		color: $hacktj-primary;
+	}
+	&:active{
+		border-color: $hacktj-primary;
+	}
+	transition: background-color 0.25s, border-color 0.25s, color 0.25s, padding-left 0.25s;
+}
+
 .centered-box{
 	display: block;
 	width: 100%;
@@ -66,62 +182,6 @@ body {
 		transition: margin-top 0.8s, transform 0.8s, opacity 0.5s;
 	}
 
-	button{
-		display: inline-block;
-		height: 50px;
-		width: 29%;
-		@include respond-to("mobile"){
-			display: block;
-			width: 100%;
-			margin-top: 10px;
-		}
-
-		float: right;
-		background: none;
-		overflow: hidden;
-		border: 1px solid white;
-		border-radius: 5px;
-		font-size: 20px;
-		cursor: pointer;
-		position: relative;
-		.text, .icon{
-			display: block;
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			line-height: 50px;
-			transition: top 0.5s;
-		}
-		.icon{
-			font-size: 30px;
-			top: 100%;
-		}
-		&.is-disabled{
-			color: rgba(230, 230, 230, 0.6);
-			border-color: rgba(230, 230, 230, 0.6);
-			cursor: none;
-			pointer-events: none;
-		}
-		&.is-done{
-			.text{
-				top: -100%;
-			}
-			.icon{
-				top: 0;
-			}
-		}
-		&:hover{
-			background-color: white;
-			color: $hacktj-primary;
-		}
-		&:active{
-			border-color: $hacktj-primary;
-		}
-		transition: background-color 0.25s, border-color 0.25s, color 0.25s, padding-left 0.25s;
-	}
-
 	.form{
 		margin-top: 30px;
 		margin-left: 5%;
@@ -131,66 +191,7 @@ body {
 		}
 		.input-line{
 			margin-top: 10px;
-			overflow: hidden;
-			input{
-				display: inline-block;
-				height: 50px;
-				width: 69%;
-				@include respond-to("mobile"){
-					display: block;
-					width: 100%;
-				}
-
-				outline: none;
-				-webkit-appearance: none;
-				appearance: none;
-				box-shadow: none;
-				border: none;
-				border-radius: 5px;
-
-				padding: 0px 15px;
-				font-size: 25px;
-				color: white;
-
-				background-color: $input-color;
-				border: 1px solid transparent;
-				&:focus{
-					border-color: rgba(255, 255, 255, 0.6);
-				}
-				transition: border-color 0.25s;
-
-				$placeholder-color: rgba(255, 255, 255, 0.6);
-				$placeholder-weight: 100;
-				$placeholder-size: 20px;
-				$placeholder-padding: 2.5px;
-				&::-webkit-input-placeholder {
-					font-weight: $placeholder-weight;
-				  color: $placeholder-color;
-				  padding-top: $placeholder-padding;
-				  font-size: $placeholder-size;
-				}
-				&:-moz-placeholder {
-					font-weight: $placeholder-weight;
-				  color: $placeholder-color;
-				  padding-top: $placeholder-padding;
- 				  font-size: $placeholder-size;
-				}
-				&::-moz-placeholder {
-					font-weight: $placeholder-weight;
-				  color: $placeholder-color;
-				  padding-top: $placeholder-padding;
- 				  font-size: $placeholder-size;
-				}
-				&:-ms-input-placeholder {
-					font-weight: $placeholder-weight;
-				  color: $placeholder-color;
-				  padding-top: $placeholder-padding;
- 				  font-size: $placeholder-size;
-				}
-				&.checkin{
-					width: 100%;
-				}
-			}	
+			overflow: hidden;	
 		}
 	}
 	.confirmation-text{
@@ -266,5 +267,84 @@ body {
 			background: none !important;
 		}
 	}
+}
+.checkin-modal{
+	position: absolute;
+	display: block;
+	width: 650px;
+	max-width: 50%;
+	z-index: 1001;
+	top: -400px;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: white;
+	color: #333;
+	padding: 0.5em;
+	font-size: 30px;
+	&.shown{
+		top: 50%;
+	}
+	transition: top 0.7s;
+	.title{
+		text-align: center;
+		font-weight: 100;
+		font-size: 40px;
+		margin-top: 0;
+	}
+	.data{
+		font-size: 1em;
+		color: #333;
+		width: 90%;
+		margin: auto;
+		.field{
+			font-weight: 100;
+			padding-bottom: 1em;
+		}
+		.value{
+			font-weight: 300;
+			padding-bottom: 1em;
+			input{
+				border-color: #333;
+				color: #222;
+				font-weight: 300;
+			}
+		}
+	}
+	button.send-checkin{
+		display: block;
+		margin: auto;
+		border-color: $hacktj-primary;
+		color: $hacktj-primary;
+		float: none;
+		margin-top: 0.5em;
+		font-size: 30px;
+		padding: 0.6em;
+		height: auto;
+		width: auto;
+		&:hover, &.selected{
+			background-color: $hacktj-primary;
+			color: white;
+		}
+		&:active{
+			border-color: white;
+		}
+	}
+}
+.overlay{
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	background-color: #222;
+	opacity: 0;
+	z-index: 1000;
+	pointer-events: none;
+	&.shown{
+		opacity: 0.4;
+		cursor: pointer;
+		pointer-events: auto;
+	}
+	transition: opacity 0.5s;
 }
 

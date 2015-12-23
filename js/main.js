@@ -19,18 +19,29 @@ function removeClass(el, className) {
   }
 }
 
+String.prototype.capitalize = function() {
+    return this.split(' ').reduce(function(result, s){
+    	return result + s.charAt(0).toUpperCase() + s.slice(1) + ' ';
+    }, '')
+}
+
 angular.module('HackTJCheckin', [])
 .config(['$httpProvider', function ($httpProvider) {
     $httpProvider.defaults.withCredentials = true;
 }])
-.controller('CheckinController', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
+.controller('CheckinController', ['$scope', '$http', '$rootScope', '$timeout', function($scope, $http, $rootScope, $timeout) {
 	$scope.user = false;
 	$scope.isTyping = false;
 	$scope.password = "";
 	$scope.type = "student"
 	$scope.search = ""
 	$scope.index = 0;
-	
+	$scope.modalGuest = false;
+
+	$scope.setIndex = function(i){
+		$scope.index = i;
+	}
+
 	$scope.loadGuests = function(type){
 		$http.get('https://api.hacktj.org/checkin/guests?type='+type, { withCredentials: true })
 		.success(function(data){
@@ -60,39 +71,54 @@ angular.module('HackTJCheckin', [])
 		$scope.user = false;
 	}
 
-	$scope.checkin = function(guest){
-		alert("Checking in "+guest.firstname+" "+guest.lastname);
+	$scope.checkinModal = function(index){
+		$scope.index = index || $scope.index;
+		$scope.modalGuest = $scope.filteredGuests[$scope.index];
+		document.querySelector('input.phone').focus();
+	}
+	$scope.sendCheckin = function(){
+		var guest = $scope.filteredGuests[$scope.index];
+		console.log('Checked in '+guest.firstname+" "+guest.lastname+".")
 		$scope.search = "";
+		$scope.index = 0;
+		removeClass(document.querySelector('.send-checkin'), 'selected');
+		document.querySelector('input.checkin').focus();
+		$scope.modalGuest = false;
 	}
 
 	document.addEventListener('keydown', function(e){
-		console.log(e);
+		console.log(e.keyIdentifier === "U+001B");
 		if($scope.filteredGuests){
 			var delta = 0;
 			var preventDefault = false;
 			if(e.keyIdentifier === 'Down' && $scope.index < ($scope.filteredGuests.length-1)){
-				delta = 1;
-				preventDefault = true;
-			}else if(e.keyIdentifier === 'Up' && $scope.index > 0){
-				delta = -1;
-				preventDefault = true;
-			}else if(e.keyIdentifier === 'Enter'){
-				$scope.checkin($scope.filteredGuests[$scope.index]);
-				preventDefault = true;
-			}
-			if(delta !== 0){
 				$scope.$apply(function(){
-					$scope.index += delta;
+					$scope.index += 1;
 				});
-			}
-			if(preventDefault){
+				e.preventDefault()
+			}else if(e.keyIdentifier === 'Up' && $scope.index > 0){
+				$scope.$apply(function(){
+					$scope.index -= 1;
+				});
 				e.preventDefault();
+			}else if(e.keyIdentifier === 'Enter'){
+				$scope.$apply(function(){
+					if($scope.modalGuest) {
+						addClass(document.querySelector('.send-checkin'), 'selected');
+						$timeout(function(){
+							$scope.sendCheckin();
+						}, 400);
+					} else {
+						$scope.checkinModal();
+					}
+				});
+				e.preventDefault();
+			}else if(e.keyIdentifier === "U+001B" && $scope.modalGuest){
+				$scope.$apply(function(){
+					$scope.modalGuest = false;
+					document.querySelector('input.checkin').focus();
+				});
 			}
 		}
 	});
-	// $('input.checkin').on('keypress', function(e){
-	// 	if(e.keyIdentifier === 'Down' || e.keyIdentifier === 'Up' || e.keyIdentifier === 'Enter'){
-	// 		e.preventDefault();
-	// 	}
-	// })
 }]);
