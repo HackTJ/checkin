@@ -29,6 +29,19 @@ body {
 	}
 }
 
+.checkin-choices{
+	padding: 10px;
+	a{
+		color: white;
+		font-weight: 100;
+		text-decoration: none;
+		&.current{
+			font-weight: 500;
+			border-bottom: 1px solid white;
+		}
+	}
+}
+
 input{
 	display: inline-block;
 	height: 50px;

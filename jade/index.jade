@@ -32,6 +32,16 @@ html(prefix="og: http://ogp.me/ns#")
 			| Hello, {{user.firstname}} (
 			a(ng-click="logout()" href="javascript: null();") logout
 			| )
+		.checkin-choices(ng-show="user")
+			a(href="#student" ng-class="{current: type == 'student'}") students
+			|  | 
+			a(href="#mentor" ng-class="{current: type == 'mentor'}") mentors
+			|  | 
+			a(href="#volunteer" ng-class="{current: type == 'volunteer'}") volunteers
+			|  | 
+			a(href="#checkin" ng-class="{current: type == 'checkin'}") checked in
+			|  | 
+			a(href="#removed" ng-class="{current: type == 'removed'}") removed
 		.centered-box(ng-class="{'is-typing': (isTyping || search)}")
 			img.logo(src="img/logo-main.png" alt="HackTJ")
 			.form.login-form(ng-show="!user")
@@ -57,12 +67,18 @@ html(prefix="og: http://ogp.me/ns#")
 				tr
 					td.field Shirt
 					td.value {{modalGuest.shirt.capitalize()}}
-				tr
+				tr(ng-if="type=='student'")
 					td.field DOB
 					td.value {{modalGuest.birth_date}}
 				tr
 					td.field Phone
 					td.value
 						input.phone(type="phone" ng-model="modalGuest.phone")
+				tr(ng-if="type=='student' && modalGuest.missing_forms")
+					td.field
+					td.value #[strong Missing forms]: {{modalGuest.missing_forms}}
+				tr(ng-if="type=='student' && modalGuest.write_badge")
+					td.field
+					td.value #[strong Needs a custom badge]
 			button.send-checkin(type="button" ng-click="sendCheckin()") Check in {{modalGuest.firstname.capitalize()+ " " + modalGuest.lastname.capitalize()}}
 	script(src="js/main.js" type="text/javascript")

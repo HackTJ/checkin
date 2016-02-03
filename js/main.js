@@ -29,26 +29,38 @@ angular.module('HackTJCheckin', [])
 .config(['$httpProvider', function ($httpProvider) {
     $httpProvider.defaults.withCredentials = true;
 }])
-.controller('CheckinController', ['$scope', '$http', '$rootScope', '$timeout', function($scope, $http, $rootScope, $timeout) {
+.controller('CheckinController', ['$scope', '$http', '$rootScope', '$timeout', '$location', function($scope, $http, $rootScope, $timeout, $location) {
 	$scope.user = false;
 	$scope.isTyping = false;
 	$scope.password = "";
-	$scope.type = "student"
+
+	$scope.type = (window.location.hash.substring(2)) || "student";
+	console.log($scope.type);
 	$scope.search = ""
 	$scope.index = 0;
 	$scope.modalGuest = false;
-	var SERVER = 'https://api.hacktj.org';
+	var SERVER = 'http://dev.hacktj.org:4000' //'https://api.hacktj.org';
+
+	window.addEventListener('hashchange', function(e){
+		console.log('e');
+		$scope.$apply(function(){
+			$scope.type = (window.location.hash.substring(2)) || "student";
+			$scope.loadGuests($scope.type);
+		});
+	})
 
 	$scope.setIndex = function(i){
 		$scope.index = i;
 	}
 
 	$scope.loadGuests = function(type){
-		console.log('loading');
 		$http.get(SERVER+'/checkin/guests?type='+type, { withCredentials: true })
 		.success(function(data){
-			console.log(data);
-			$scope.guests = data;
+			console.log('Guests: ', data.length)
+			$scope.guests = data.map(function(guest){
+				guest.fullname = guest.firstname+" "+guest.lastname;
+				return guest;
+			});
 		});
 	}
 
@@ -76,6 +88,7 @@ angular.module('HackTJCheckin', [])
 	$scope.checkinModal = function(index){
 		$scope.index = index || $scope.index;
 		$scope.modalGuest = $scope.filteredGuests[$scope.index];
+		console.log($scope.modalGuest)
 		document.querySelector('input.phone').focus();
 	}
 	$scope.sendCheckin = function(){
@@ -119,10 +132,15 @@ angular.module('HackTJCheckin', [])
 					}
 				});
 				e.preventDefault();
-			}else if(e.keyIdentifier === "U+001B" && $scope.modalGuest){
+			}else if(e.keyIdentifier === "U+001B"){
 				$scope.$apply(function(){
-					$scope.modalGuest = false;
-					document.querySelector('input.checkin').focus();
+					if($scope.modalGuest){
+						$scope.modalGuest = false;
+						document.querySelector('input.checkin').focus();
+					}else{
+						$scope.search = ""
+						document.querySelector('input.checkin').blur();
+					}
 				});
 			}
 		}
