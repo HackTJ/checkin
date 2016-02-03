@@ -1,13 +1,8 @@
 /* Config settings - Update this when you clone the repo */
-var eventRepo = {
-	remoteUrl: "https://github.com/HackTJ/2016.git",
+var repo = {
+	remoteUrl: "https://github.com/HackTJ/checkin.git",
 	branch: "gh-pages",
 	cacheDir: '.page'
-}
-var homepageRepo = {
-	remoteUrl: "https://github.com/HackTJ/hacktj.github.io.git",
-	branch: "master",
-	cacheDir: '.homepage'
 }
 /* ----------------------------------------------------- */
 
@@ -114,39 +109,14 @@ gulp.task('compile', ['clean'], compileAll)
 var deploy = {}
 
 // Deploy to hacktj.org/year
-deploy.event = function(){
+gulp.task('deploy', ['compile'], function(){
 	var deferred = when.defer();
 	gulp.src("./out/**/*")
-        .pipe( githubPages( eventRepo ) )
+        .pipe( githubPages( repo ) )
         .on('end', function(){
         	deferred.resolve();
         });
     return deferred.promise;
-}
-// Deploy to hacktj.org
-deploy.homepage = function() {
-	var deferred = when.defer();
-    return gulp.src("./out/**/*")
-        .pipe( githubPages( homepageRepo ) )
-       	.on('end', function(){
-        	deferred.resolve();
-        });
-    return deferred.promise;
-}
-
-// Deploy to both targets
-deploy.all = function(cb){
-	when.all([
-		deploy.event(),
-	 	deploy.homepage()
-	]).then(function(){
-		return cb();
-	})
-}
-
-// Add gulp tasks for each deploy target
-Object.keys(deploy).forEach(function(target){
-	gulp.task('deploy-'+target, ['compile'], deploy[target]);
 });
 
 
