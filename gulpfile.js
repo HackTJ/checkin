@@ -108,7 +108,6 @@ gulp.task('compile', ['clean'], compileAll)
 /**** Deploy tasks ****/
 var deploy = {}
 
-// Deploy to hacktj.org/year
 gulp.task('deploy', ['compile'], function(){
 	var deferred = when.defer();
 	gulp.src("./out/**/*")
