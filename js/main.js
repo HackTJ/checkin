@@ -39,7 +39,7 @@ angular.module('HackTJCheckin', [])
 	$scope.search = ""
 	$scope.index = 0;
 	$scope.modalGuest = false;
-	var SERVER = 'http://dev.hacktj.org:4000' //'https://api.hacktj.org';
+	var SERVER = 'https://api.hacktj.org';
 
 	window.addEventListener('hashchange', function(e){
 		console.log('e');
@@ -71,6 +71,7 @@ angular.module('HackTJCheckin', [])
 	});
 
 	$scope.login = function(){
+		console.log("logging in")
 		$http.post(SERVER+"/auth/login", {password: $scope.password})
 		.success(function(data){
 			$scope.user = data;
